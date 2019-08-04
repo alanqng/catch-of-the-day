@@ -6,10 +6,11 @@ export default class Order extends React.Component {
   renderFish = key => {
     const fish = this.props.fishes[key];
     const count = this.props.order[key];
+    // const isAvailable = fish.status === 'available'
     if (!fish) {
       return null;
     }
-    if (fish.status !== "available") {
+    if (fish.status !== 'available') {
       return (
         <li key={key}>Sorry {fish ? fish.name : "fish"} no longer available</li>
       );
@@ -20,7 +21,6 @@ export default class Order extends React.Component {
           {count} lbs {fish.name} {formatPrice(count * fish.price)}
           <button onClick={() => this.props.deleteOrder(key)}>&times;</button>
         </li>
-        
       </div>
     );
   };
@@ -31,7 +31,7 @@ export default class Order extends React.Component {
       const count = this.props.order[key];
       const isAvailable = fish && fish.status === "available";
       if (isAvailable) {
-        return acc + count * fish.price;
+        return acc + (count * fish.price);
       }
       return acc;
     }, 0);
@@ -39,7 +39,10 @@ export default class Order extends React.Component {
     return (
       <div className="order-wrap">
         <h2>Order</h2>
-        <TransitionGroup component="ul" className="order">{orderIds.map(key => this.renderFish(key))}</TransitionGroup>
+        <ul className="order">
+          {orderIds.map(key => this.renderFish(key))}
+        </ul>
+        {/*<TransitionGroup component="ul" className="order">{orderIds.map(key => this.renderFish(key))}</TransitionGroup>*/}
         <div className="total">
           Total:
           <strong>{formatPrice(total)}</strong>
